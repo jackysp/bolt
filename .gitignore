@@ -1,4 +1,15 @@
 *.prof
 *.test
-*.swp
-/bin/
+
+.idea/
+bin/
+.DS_Store
+.log
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
