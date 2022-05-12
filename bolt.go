@@ -1,3 +1,4 @@
+//go:build !windows && !plan9 && !solaris
 // +build !windows,!plan9,!solaris
 
 package bolt
@@ -9,6 +10,15 @@ import (
 	"time"
 	"unsafe"
 )
+
+// maxMapSize represents the largest mmap size supported by Bolt.
+const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+
+// maxAllocSize is the size used when creating array pointers.
+const maxAllocSize = 0x7FFFFFFF
+
+// Are unaligned load/stores broken on this arch?
+var brokenUnaligned = false
 
 // flock acquires an advisory lock on a file descriptor.
 func flock(db *DB, mode os.FileMode, exclusive bool, timeout time.Duration) error {
