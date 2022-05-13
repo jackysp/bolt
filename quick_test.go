@@ -3,9 +3,7 @@ package bolt_test
 import (
 	"bytes"
 	"flag"
-	"fmt"
 	"math/rand"
-	"os"
 	"reflect"
 	"testing/quick"
 	"time"
@@ -24,17 +22,15 @@ import (
 var qcount, qseed, qmaxitems, qmaxksize, qmaxvsize int
 
 func init() {
-	flag.IntVar(&qcount, "quick.count", 5, "")
-	flag.IntVar(&qseed, "quick.seed", int(time.Now().UnixNano())%100000, "")
-	flag.IntVar(&qmaxitems, "quick.maxitems", 1000, "")
-	flag.IntVar(&qmaxksize, "quick.maxksize", 1024, "")
-	flag.IntVar(&qmaxvsize, "quick.maxvsize", 1024, "")
-	flag.Parse()
-	fmt.Fprintln(os.Stderr, "seed:", qseed)
-	fmt.Fprintf(os.Stderr, "quick settings: count=%v, items=%v, ksize=%v, vsize=%v\n", qcount, qmaxitems, qmaxksize, qmaxvsize)
+	qcount = 5
+	qseed = int(time.Now().UnixNano()) % 100000
+	qmaxitems = 1000
+	qmaxksize = 1024
+	qmaxvsize = 1024
 }
 
 func qconfig() *quick.Config {
+	flag.Parse()
 	return &quick.Config{
 		MaxCount: qcount,
 		Rand:     rand.New(rand.NewSource(int64(qseed))),
